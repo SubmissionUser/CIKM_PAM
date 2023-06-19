@@ -1,7 +1,6 @@
 import time
 
 import pandas as pd
-from ogb.linkproppred import LinkPropPredDataset
 from scipy.sparse import csr_matrix
 
 from utils import get_prime_map_from_rel, get_sparsity, load_data, set_all_seeds
@@ -16,7 +15,6 @@ project_to_path = {
     "FB15k-237": "./data/FB15k-237/",
     "YAGO3-10-DR": "./data/YAGO3-10-DR/",
     "hetionet": "./data/Hetionet/hetionet-v1.0-edges.tsv",
-    "ogbl-wikikg2": "path",
 }
 
 res = []
@@ -30,14 +28,6 @@ for project_name, path in project_to_path.items():
         df_train = pd.read_csv(path, sep="\t")
         df_train.dropna(inplace=True)
         df_train.columns = ["head", "rel", "tail"]
-    # and ogbl-wiki-kg2
-    elif project_name == "ogbl-wikikg2":
-        dataset = LinkPropPredDataset(name="ogbl-wikikg2")
-        graph = dataset[0]
-        df_train = pd.DataFrame(graph["edge_index"]).T
-        df_train.columns = ["head", "tail"]
-        df_train["rel"] = graph["edge_reltype"]
-        df_train.shape
     else:
         _, df_train, _, _, _ = load_data(path, project_name, add_inverse_edges="NO")
 

@@ -118,8 +118,6 @@ models = [
 
 model_names = [
     "VH",
-    # "EH+VH",
-    # "WL-1",
     "WL-OA",
     "PP",
     "PP+VH",
